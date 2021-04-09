@@ -1,10 +1,7 @@
-const setHistory = (data) =>{
-    return (dispatch) => {
-        dispatch({type: "SET_HISTORY", payload: data})
-    }
-}
+const setHistory = (data) => {
+  return (dispatch) => {
+    dispatch({type: 'SET_HISTORY', payload: data});
+  };
+};
 
-
-export {
-    setHistory,
-}
+export {setHistory};

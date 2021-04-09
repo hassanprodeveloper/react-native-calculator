@@ -1,9 +1,12 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text, Button, TextInput} from 'react-native';
 import {connect} from 'react-redux';
 import {setHistory} from '../redux/action';
 
 const History = (props) => {
+useEffect(() => {
+ console.log('history ===', props.historyArr)
+}, []);
 
   return (
     <View style={styles.appCont}>
@@ -12,8 +15,7 @@ const History = (props) => {
   );
 };
 const mapStateToProps = (state) => ({
-  // user1: state.r1.name,
-  // user2: state.r2.user,
+  historyArr: state.history
 });
 const mapDispatchToProps = (dispatch) => ({
   // addUser: (data) => dispatch(setHistory(data))

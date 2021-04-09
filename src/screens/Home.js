@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import {StyleSheet, View, Text, Button} from 'react-native';
 import KeyPad from '../components/KeyPad/index';
 import {connect} from 'react-redux';
+import {setHistory} from '../redux/action'
 
-const Home = ({navigation}) => {
+const Home = ({navigation, sethistory}) => {
   const [displayValue, setdisplayValue] = useState('0');
   const [operator, setoperator] = useState(null);
   const [firstValue, setfirstValue] = useState('');
@@ -11,8 +12,8 @@ const Home = ({navigation}) => {
   const [nextValue, setnextValue] = useState(false);
   const [result, setresult] = useState(null);
   //
-  console.log(firstValue + operator + secondValue);
-  console.log(result);
+  // console.log(firstValue + operator + secondValue);
+  console.log({exp: displayValue, res : result});
   //
   const btnPressHandler = (input) => {
     switch (input) {
@@ -39,6 +40,7 @@ const Home = ({navigation}) => {
       case '×':
       case '-':
       case '+':
+
         setnextValue(true);
         setoperator(input);
         setdisplayValue(
@@ -59,9 +61,11 @@ const Home = ({navigation}) => {
         break;
       //
       case '=':
-        let result = eval(firstValue + operator + secondValue);
-        setresult(result + ' =');
-        setfirstValue('');
+        let formateOperator = (operator === '×')? '*' : (operator === '÷')? '/' : operator 
+        let result = eval(firstValue + formateOperator + secondValue);
+        setresult(result);
+        setHistory({exp: displayValue, res: result})
+        setfirstValue(result);
         setsecondValue('');
         setnextValue(false);
         setoperator(null);
@@ -116,7 +120,7 @@ const Home = ({navigation}) => {
         </View>
         {/* section 1 row 2 */}
         <View style={[styles.s1r2, styles.s1r, styles, styles.flex_1]}>
-          <Text style={[styles.textColor]}>{result}</Text>
+          <Text style={[styles.textColor]}>{result === null ? null : `${result} =`  }</Text>
         </View>
       </View>
       {/* section 2 contain key pad */}
@@ -131,7 +135,7 @@ const mapStateToProps = (state) => ({
   // user2: state.r2.user,
 });
 const mapDispatchToProps = (dispatch) => ({
-  // addUser: (data) => dispatch(setHistory(data))
+  setHistory: (data) => dispatch(setHistory(data))
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
