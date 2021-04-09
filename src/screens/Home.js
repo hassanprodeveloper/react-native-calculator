@@ -3,27 +3,37 @@ import {StyleSheet, View, Text, Button} from 'react-native';
 import KeyPad from '../components/KeyPad/index';
 
 const Home = ({navigation}) => {
+  const [expression, setexpression] =useState('')
   const [firstVal, setfirstVal] = useState(0);
   const [sign, setsign] = useState('');
   const [secVal, setsecVal] = useState(0);
   //
   const btnPressHandler = (props) => {
-    console.log('first val @11============>>>>>>', firstVal);
-    console.log('sec val @12============>>>>>>', secVal);
-    console.log('sign @13============>>>>>>', sign);
-    if (props.type === 'num') {
-      if (sign === '') {
-        setfirstVal(`${firstVal}${props.val}`);
-        console.log('home @17', firstVal);
-      } else {
-        setsecVal(`${secVal}${props.val}`);
-        console.log('home @20', secVal);
-      }
+    switch (props.type) {
+      case 'num':
+        
+        
+        break;
+    
+      default:
+        break;
     }
-    // 
-    else if (props.type === 'operator') {
-      setsign(props.val);
-    }
+    // console.log('first val @11============>>>>>>', firstVal);
+    // console.log('sec val @12============>>>>>>', secVal);
+    // console.log('sign @13============>>>>>>', sign);
+    // if (props.type === 'num') {
+    //   if (sign === '') {
+    //     setfirstVal(`${firstVal}${props.val}`);
+    //     console.log('home @17', firstVal);
+    //   } else {
+    //     setsecVal(`${secVal}${props.val}`);
+    //     console.log('home @20', secVal);
+    //   }
+    // }
+    // // 
+    // else if (props.type === 'operator') {
+    //   setsign(props.val);
+    // }
   };
 
   return (

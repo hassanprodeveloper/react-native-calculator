@@ -1,37 +1,37 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Text,} from 'react-native';
-import Row from './Row'
-import {btnList} from '../../redux/reducer/BtnList'
+import {StyleSheet, View, Text} from 'react-native';
+import MyButton from './Button';
+import {btnList} from '../../redux/reducer/BtnList';
 
 const KeyPad = ({pressHandler}) => {
-  const buttons = btnList
-  return (
-    <View style={styles.KeyPad_container}>
-      {buttons.map((row, index) => (
-        <Row pressHandler={pressHandler} Rowindex={index} arr= {row}  />
-      ))}
-
-      {/*  */}
-      {/* {buttons.map((row, index) => (
-        <View key={index}>
-          {row.map((col, index) => (
-            <View key={index} onPress={() => {}}>
-              <View>
-                <Text>{col.title}</Text>
-              </View>
-            </View>
-          ))}
+  const buttons = btnList;
+  const keyPadHandler = () => {
+    let layout = buttons.map((buttonsRow, rowIndex) => {
+      let rowLayout = buttonsRow.map((buttonsItem, buttonIndex) => {
+        return (
+          <MyButton
+            pressHandler={pressHandler}
+            obj={buttonsItem}
+            index={buttonIndex}
+          />
+        );
+      });
+      return (
+        <View style={styles.row} key={'row-' + rowIndex}>
+          {rowLayout}
         </View>
-      ))} */}
-      {/*  */}
-    </View>
-  );
+      );
+    });
+    return layout;
+  };
+  // 
+  return <View style={styles.KeyPad_container}>{keyPadHandler()}</View>;
 };
 
 export default KeyPad;
 // Styles are down here
 const styles = StyleSheet.create({
-  KeyPad_container:{
+  KeyPad_container: {
     flex: 1,
     justifyContent: 'flex-end',
     paddingBottom: 40,
@@ -51,7 +51,10 @@ const styles = StyleSheet.create({
     fontSize: 40,
     // backgroundColor: 'aqua',
   },
-  orangeTheme: {
-    backgroundColor: '#f09a25',
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+    paddingHorizontal: 15,
   },
 });

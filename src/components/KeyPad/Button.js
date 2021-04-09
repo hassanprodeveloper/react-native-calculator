@@ -27,7 +27,7 @@ const Button = ({obj, index,pressHandler}) => {
   return (
     <>
       <Pressable
-        key={index}
+        key={'btn-'+index}
         onPress={() => pressHandler({type: obj.type, val: obj.val})}
         style={({pressed}) => [
           {
