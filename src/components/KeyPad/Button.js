@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text, Pressable} from 'react-native';
 
-const Button = ({obj, index}) => {
+const Button = ({obj, index,pressHandler}) => {
   //
   // console.log('button obj ===>>>', obj.size);
   //
@@ -28,7 +28,7 @@ const Button = ({obj, index}) => {
     <>
       <Pressable
         key={index}
-        onPress={() => console.log(`${obj.val} btn is pressed`)}
+        onPress={() => pressHandler({type: obj.type, val: obj.val})}
         style={({pressed}) => [
           {
             backgroundColor: pressed ? buttonTheme.press : buttonTheme.notPress,

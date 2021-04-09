@@ -3,12 +3,12 @@ import {StyleSheet, View, Text,} from 'react-native';
 import Row from './Row'
 import {btnList} from '../../redux/reducer/BtnList'
 
-const KeyPad = () => {
+const KeyPad = ({pressHandler}) => {
   const buttons = btnList
   return (
     <View style={styles.KeyPad_container}>
       {buttons.map((row, index) => (
-        <Row Rowindex={index} arr= {row}  />
+        <Row pressHandler={pressHandler} Rowindex={index} arr= {row}  />
       ))}
 
       {/*  */}

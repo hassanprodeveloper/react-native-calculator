@@ -2,12 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text, Pressable} from 'react-native';
 import MyButton from './Button';
 
-const Row = ({arr, Rowindex}) => {
+const Row = ({arr, Rowindex, pressHandler}) => {
   return (
     <>
       <View style={styles.row} key={Rowindex}>
         {arr.map((obj, index) => (
-          <MyButton obj={obj} index={index} />
+          <MyButton pressHandler={pressHandler} obj={obj} index={index} />
         ))}
       </View>
 
