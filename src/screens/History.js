@@ -1,65 +1,37 @@
-import React,{useState} from 'react'
-import {
-  StyleSheet, 
-  View, 
-  Text, 
-  Button,
-  TextInput,
-} from 'react-native';
-import { connect } from 'react-redux';
-// importing functions from action file 
-import {
-  updateUser1,
-} from '../redux/action'
-// importing components 
-import WelcomeHeading from '../components/WelcomeHeading'
+import React, {useState} from 'react';
+import {StyleSheet, View, Text, Button, TextInput} from 'react-native';
+import {connect} from 'react-redux';
+import {setHistory} from '../redux/action';
 
 const History = (props) => {
-  const [InputData, setInputData] = useState();
 
   return (
     <View style={styles.appCont}>
-      <WelcomeHeading text1='React Native' text2=' Boiler Plate' />
-    <View style={styles.appContainer}>
-      <View>
-        <WelcomeHeading text1='Welcome ' text2={props.user1} />
-        <Text>{props.user2.name}</Text>
-        <TextInput
-          onChangeText={(val) => {setInputData(val)} }
-         placeholder="What is your Name?"/>
-        <Button onPress={() =>{ props.addUser(InputData); }} style={styles.button} title='Update Name' />
-        <Text>Navegations Buttons are Down Here</Text>
-
-        <Button style={styles.button} onPress={() => props.navigation.navigate('History')} title='Go to History' />
-      </View>
+      <Text>history</Text>
     </View>
-    </View>
-
-);
+  );
 };
-  const mapStateToProps = (state) =>({
-    user1: state.r1.name,
-    user2: state.r2.user,
-  });
-  const mapDispatchToProps = (dispatch) =>({
-  addUser: (data) => dispatch(updateUser1(data))  
-  });
+const mapStateToProps = (state) => ({
+  // user1: state.r1.name,
+  // user2: state.r2.user,
+});
+const mapDispatchToProps = (dispatch) => ({
+  // addUser: (data) => dispatch(setHistory(data))
+});
 
-  
-  // STYLE_SHEET
-  const styles = StyleSheet.create({
-    appCont: {
+// STYLE_SHEET
+const styles = StyleSheet.create({
+  appCont: {
     flex: 2,
-    padding:13,
-
+    padding: 13,
   },
-    appContainer: {
+  appContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   button: {
-    margin:10
+    margin: 10,
   },
 });
 

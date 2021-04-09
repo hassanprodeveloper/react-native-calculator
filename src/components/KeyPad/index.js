@@ -5,6 +5,7 @@ import {btnList} from '../../redux/reducer/BtnList';
 
 const KeyPad = ({pressHandler}) => {
   const buttons = btnList;
+  // 
   const keyPadHandler = () => {
     let layout = buttons.map((buttonsRow, rowIndex) => {
       let rowLayout = buttonsRow.map((buttonsItem, buttonIndex) => {

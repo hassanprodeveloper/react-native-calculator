@@ -1,10 +1,10 @@
-const updateUser1 = (data) =>{
+const setHistory = (data) =>{
     return (dispatch) => {
-        dispatch({type: "SET_USER1", payload: data})
+        dispatch({type: "SET_HISTORY", payload: data})
     }
 }
 
 
 export {
-    updateUser1,
+    setHistory,
 }

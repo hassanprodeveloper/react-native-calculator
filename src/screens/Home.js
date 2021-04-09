@@ -1,28 +1,98 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, Button} from 'react-native';
 import KeyPad from '../components/KeyPad/index';
+import {connect} from 'react-redux';
 
 const Home = ({navigation}) => {
-  const [expression, setexpression] =useState('')
-  const [firstVal, setfirstVal] = useState(0);
-  const [sign, setsign] = useState('');
-  const [secVal, setsecVal] = useState(0);
+  const [displayValue, setdisplayValue] = useState('0');
+  const [operator, setoperator] = useState(null);
+  const [firstValue, setfirstValue] = useState('');
+  const [secondValue, setsecondValue] = useState('');
+  const [nextValue, setnextValue] = useState(false);
+  const [result, setresult] = useState(null);
   //
-  const btnPressHandler = (props) => {
-    switch (props.type) {
-      case 'num':
-        
-        
+  console.log(firstValue + operator + secondValue);
+  console.log(result);
+  //
+  const btnPressHandler = (input) => {
+    switch (input) {
+      case '0':
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+      case '9':
+        setdisplayValue(displayValue === '0' ? input : displayValue + input);
+        if (!nextValue) {
+          setfirstValue(firstValue + input);
+        } else {
+          setsecondValue(secondValue + input);
+        }
+
         break;
-    
-      default:
+      //
+      case '÷':
+      case '×':
+      case '-':
+      case '+':
+        setnextValue(true);
+        setoperator(input);
+        setdisplayValue(
+          (operator !== null
+            ? displayValue.substr(0, displayValue.length - 1)
+            : displayValue) + input,
+        );
+        break;
+      //
+      case '.':
+        let dot = displayValue.slice(-1);
+        setdisplayValue(dot !== '.' ? displayValue + input : displayValue);
+        if (!nextValue) {
+          setfirstValue(firstValue + input);
+        } else {
+          setsecondValue(secondValue + input);
+        }
+        break;
+      //
+      case '=':
+        let result = eval(firstValue + operator + secondValue);
+        setresult(result + ' =');
+        setfirstValue('');
+        setsecondValue('');
+        setnextValue(false);
+        setoperator(null);
+        break;
+      //
+      case 'C':
+        setdisplayValue('0');
+        setoperator(null);
+        setfirstValue('');
+        setsecondValue('');
+        setresult(null);
+        setnextValue(false);
+        break;
+      case 'del':
+        if (result === null) {
+          let string = displayValue.toString();
+          let deletedString = displayValue.substr(0, string.length - 1);
+          let length = string.length;
+          setdisplayValue(length === 1 ? '0' : deletedString);
+        } else setdisplayValue(displayValue);
+        break;
+      case 'H':
+        navigation.navigate('History');
         break;
     }
+
     // console.log('first val @11============>>>>>>', firstVal);
     // console.log('sec val @12============>>>>>>', secVal);
-    // console.log('sign @13============>>>>>>', sign);
+    // console.log('operator @13============>>>>>>', operator);
     // if (props.type === 'num') {
-    //   if (sign === '') {
+    //   if (operator === '') {
     //     setfirstVal(`${firstVal}${props.val}`);
     //     console.log('home @17', firstVal);
     //   } else {
@@ -30,9 +100,9 @@ const Home = ({navigation}) => {
     //     console.log('home @20', secVal);
     //   }
     // }
-    // // 
+    // //
     // else if (props.type === 'operator') {
-    //   setsign(props.val);
+    //   setoperator(props.val);
     // }
   };
 
@@ -42,13 +112,11 @@ const Home = ({navigation}) => {
       <View style={styles.section1}>
         {/* section 1 row 1 */}
         <View style={[styles.s1r1, styles.s1r, styles.flex_1]}>
-          <Text style={[styles.textColor]}>
-            {Number(firstVal) + Number(secVal) }
-          </Text>
+          <Text style={[styles.textColor]}>{displayValue}</Text>
         </View>
         {/* section 1 row 2 */}
         <View style={[styles.s1r2, styles.s1r, styles, styles.flex_1]}>
-          <Text style={[styles.textColor]}>results will show here</Text>
+          <Text style={[styles.textColor]}>{result}</Text>
         </View>
       </View>
       {/* section 2 contain key pad */}
@@ -58,10 +126,20 @@ const Home = ({navigation}) => {
     </View>
   );
 };
+const mapStateToProps = (state) => ({
+  // user1: state.r1.name,
+  // user2: state.r2.user,
+});
+const mapDispatchToProps = (dispatch) => ({
+  // addUser: (data) => dispatch(setHistory(data))
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
+
+// STYLES
 const styles = StyleSheet.create({
   flex_1: {
     flex: 1,
-    justifyContent: 'center',
+    // justifyContent: 'center',
   },
   appContainer: {
     backgroundColor: '#202020',
@@ -81,12 +159,11 @@ const styles = StyleSheet.create({
     fontSize: 45,
   },
   s1r: {
-    marginTop: 5,
-    backgroundColor: 'brown',
-    flexDirection: 'row',
-    justifyContent: 'center',
+    // marginTop: 5,
+    // backgroundColor: 'brown',
     alignItems: 'flex-end',
-    alignContent: 'flex-end',
+    justifyContent: 'flex-end',
+    paddingHorizontal: 20,
+    paddingVertical: 5,
   },
 });
-export default Home;

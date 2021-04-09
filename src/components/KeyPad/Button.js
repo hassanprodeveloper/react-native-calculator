@@ -28,7 +28,7 @@ const Button = ({obj, index,pressHandler}) => {
     <>
       <Pressable
         key={'btn-'+index}
-        onPress={() => pressHandler({type: obj.type, val: obj.val})}
+        onPress={() => pressHandler(obj.input)}
         style={({pressed}) => [
           {
             backgroundColor: pressed ? buttonTheme.press : buttonTheme.notPress,
@@ -38,7 +38,7 @@ const Button = ({obj, index,pressHandler}) => {
             width: obj.size ? 150 : 70,
           },
         ]}>
-        <Text style={styles.Button_text}>{obj.title}</Text>
+        <Text style={styles.Button_text}>{obj.input}</Text>
       </Pressable>
     </>
   );
