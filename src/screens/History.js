@@ -15,6 +15,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import HistoryCard from '../components/Card';
 import {clearAllHistory} from '../redux/action';
 
+
 const History = (props) => {
   
   // clearing all calculation history
