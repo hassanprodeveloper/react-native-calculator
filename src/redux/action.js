@@ -4,4 +4,10 @@ const setHistory = (data) => {
   };
 };
 
-export {setHistory};
+const clearAllHistory = () => {
+  return (dispatch) => {
+    dispatch({type: 'CLEAR_ALL'});
+  };
+};
+
+export {setHistory, clearAllHistory};

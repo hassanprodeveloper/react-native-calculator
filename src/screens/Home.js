@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Text, Button} from 'react-native';
+import {StyleSheet, View, Text, StatusBar, Button} from 'react-native';
 import KeyPad from '../components/KeyPad/index';
 import {connect} from 'react-redux';
-import {setHistory} from '../redux/action'
+import {setHistory} from '../redux/action';
 
-const Home = ({navigation, sethistory}) => {
+const Home = ({navigation, setHistory}) => {
   const [displayValue, setdisplayValue] = useState('0');
   const [operator, setoperator] = useState(null);
   const [firstValue, setfirstValue] = useState('');
@@ -13,7 +13,7 @@ const Home = ({navigation, sethistory}) => {
   const [result, setresult] = useState(null);
   //
   // console.log(firstValue + operator + secondValue);
-  console.log({exp: displayValue, res : result});
+  // console.log({exp: displayValue, res: result});
   //
   const btnPressHandler = (input) => {
     switch (input) {
@@ -40,7 +40,6 @@ const Home = ({navigation, sethistory}) => {
       case '×':
       case '-':
       case '+':
-
         setnextValue(true);
         setoperator(input);
         setdisplayValue(
@@ -61,14 +60,17 @@ const Home = ({navigation, sethistory}) => {
         break;
       //
       case '=':
-        let formateOperator = (operator === '×')? '*' : (operator === '÷')? '/' : operator 
-        let result = eval(firstValue + formateOperator + secondValue);
-        setresult(result);
-        setHistory({exp: displayValue, res: result})
-        setfirstValue(result);
-        setsecondValue('');
-        setnextValue(false);
-        setoperator(null);
+        if (result === null) {
+          let formateOperator =
+            operator === '×' ? '*' : operator === '÷' ? '/' : operator;
+          let result = eval(firstValue + formateOperator + secondValue);
+          setresult(result);
+          setHistory({exp: displayValue, res: result});
+          setfirstValue('');
+          setsecondValue('');
+          setnextValue(false);
+          setoperator(null);
+        } else return;
         break;
       //
       case 'C':
@@ -111,23 +113,28 @@ const Home = ({navigation, sethistory}) => {
   };
 
   return (
-    <View style={[styles.appContainer, styles.flex_1]}>
-      {/* section 1 where results will display */}
-      <View style={styles.section1}>
-        {/* section 1 row 1 */}
-        <View style={[styles.s1r1, styles.s1r, styles.flex_1]}>
-          <Text style={[styles.textColor]}>{displayValue}</Text>
+    <>
+      {/* <StatusBar backgroundColor="#202020" barStyle="light-content" /> */}
+      <View style={[styles.appContainer, styles.flex_1]}>
+        {/* section 1 where results will display */}
+        <View style={styles.section1}>
+          {/* section 1 row 1 */}
+          <View style={[styles.s1r1, styles.s1r, styles.flex_1]}>
+            <Text style={[styles.textColor]}>{displayValue}</Text>
+          </View>
+          {/* section 1 row 2 */}
+          <View style={[styles.s1r2, styles.s1r, styles, styles.flex_1]}>
+            <Text style={[styles.textColor]}>
+              {result === null ? null : `${result} =`}
+            </Text>
+          </View>
         </View>
-        {/* section 1 row 2 */}
-        <View style={[styles.s1r2, styles.s1r, styles, styles.flex_1]}>
-          <Text style={[styles.textColor]}>{result === null ? null : `${result} =`  }</Text>
+        {/* section 2 contain key pad */}
+        <View style={styles.section2}>
+          <KeyPad pressHandler={btnPressHandler} />
         </View>
       </View>
-      {/* section 2 contain key pad */}
-      <View style={styles.section2}>
-        <KeyPad pressHandler={btnPressHandler} />
-      </View>
-    </View>
+    </>
   );
 };
 const mapStateToProps = (state) => ({
@@ -135,7 +142,7 @@ const mapStateToProps = (state) => ({
   // user2: state.r2.user,
 });
 const mapDispatchToProps = (dispatch) => ({
-  setHistory: (data) => dispatch(setHistory(data))
+  setHistory: (data) => dispatch(setHistory(data)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
