@@ -14,14 +14,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import HistoryCard from '../components/Card';
 import {clearAllHistory} from '../redux/action';
-
+import {storeObj, getObj} from '../config/asyncStorage';
 
 const History = (props) => {
-  
   // clearing all calculation history
   const clearHistoryHandler = () => {
     Alert.alert(
-      'Are You Sure?',
+      'Clear All History?',
       'If you press Yes then your history will be deleted permanently',
       [
         {
@@ -57,6 +56,11 @@ const History = (props) => {
         </View>
 
         <ScrollView style={styles.historyCardCont}>
+          <Button
+            onPress={() => storeObj('@historyArrData', props.historyArr)}
+            title="set data"
+          />
+          <Button onPress={() => getObj('@historyArrData')} title="get data" />
           {props.historyArr.map((arr, i) => (
             <HistoryCard obj={arr} index={i} />
           ))}

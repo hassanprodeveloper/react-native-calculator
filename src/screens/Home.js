@@ -1,10 +1,25 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text, StatusBar, Button} from 'react-native';
 import KeyPad from '../components/KeyPad/index';
 import {connect} from 'react-redux';
 import {setHistory} from '../redux/action';
+import {storeObj, getObj} from '../config/asyncStorage';
 
 const Home = ({navigation, setHistory}) => {
+  // useEffect(() => {
+    
+  // }, []);
+  const initialHistoryHandler = ()=>{
+    let data = getObj('@historyArrData');
+    let isArray = Array.isArray(data);
+    console.log('is array check ===@Home12>>>', isArray);
+    if (isArray) {
+      console.log('data ===@Home11>>>', data);
+      setHistory(data);
+    } else {
+      console.log('data is empty');
+    }
+  }
   const [displayValue, setdisplayValue] = useState('0');
   const [operator, setoperator] = useState(null);
   const [firstValue, setfirstValue] = useState('');
@@ -13,7 +28,6 @@ const Home = ({navigation, setHistory}) => {
   const [result, setresult] = useState(null);
   //
   // console.log(firstValue + operator + secondValue);
-  // console.log({exp: displayValue, res: result});
   //
   const btnPressHandler = (input) => {
     switch (input) {
@@ -111,7 +125,7 @@ const Home = ({navigation, setHistory}) => {
     //   setoperator(props.val);
     // }
   };
-
+  console.log('next value===@home122==>>', nextValue);
   return (
     <>
       {/* <StatusBar backgroundColor="#202020" barStyle="light-content" /> */}
@@ -120,6 +134,7 @@ const Home = ({navigation, setHistory}) => {
         <View style={styles.section1}>
           {/* section 1 row 1 */}
           <View style={[styles.s1r1, styles.s1r, styles.flex_1]}>
+            <Button onPress={()=>initialHistoryHandler()} title='get data' /> 
             <Text style={[styles.textColor]}>{displayValue}</Text>
           </View>
           {/* section 1 row 2 */}
