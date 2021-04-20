@@ -1,5 +1,5 @@
-import History from '../screens/History'
-import Home from '../screens/Home'
+// import History from '../screens/History'
+// import Home from '../screens/Home'
 
 
-export {History, Home,};
+// export {History, Home,};

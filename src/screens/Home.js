@@ -1,25 +1,26 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState,useRef, useEffect} from 'react';
 import {StyleSheet, View, Text, StatusBar, Button} from 'react-native';
 import KeyPad from '../components/KeyPad/index';
-import {connect} from 'react-redux';
-import {setHistory} from '../redux/action';
-import {storeObj, getObj} from '../config/asyncStorage';
+// import {connect} from 'react-redux';
+// import {setHistory} from '../redux/action';
+import ToastMsg from '../components/ToastMsg'
 
 const Home = ({navigation, setHistory}) => {
+  const toastRef = useRef();
   // useEffect(() => {
     
   // }, []);
-  const initialHistoryHandler = ()=>{
-    let data = getObj('@historyArrData');
-    let isArray = Array.isArray(data);
-    console.log('is array check ===@Home12>>>', isArray);
-    if (isArray) {
-      console.log('data ===@Home11>>>', data);
-      setHistory(data);
-    } else {
-      console.log('data is empty');
-    }
-  }
+  // const initialHistoryHandler = ()=>{
+  //   let data = getObj('@historyArrData');
+  //   let isArray = Array.isArray(data);
+  //   console.log('is array check ===@Home12>>>', isArray);
+  //   if (isArray) {
+  //     console.log('data ===@Home11>>>', data);
+  //     setHistory(data);
+  //   } else {
+  //     console.log('data is empty');
+  //   }
+  // }
   const [displayValue, setdisplayValue] = useState('0');
   const [operator, setoperator] = useState(null);
   const [firstValue, setfirstValue] = useState('');
@@ -41,13 +42,15 @@ const Home = ({navigation, setHistory}) => {
       case '7':
       case '8':
       case '9':
+      if(result === null){
+
         setdisplayValue(displayValue === '0' ? input : displayValue + input);
         if (!nextValue) {
           setfirstValue(firstValue + input);
         } else {
           setsecondValue(secondValue + input);
         }
-
+      } else return
         break;
       //
       case '÷':
@@ -79,12 +82,13 @@ const Home = ({navigation, setHistory}) => {
             operator === '×' ? '*' : operator === '÷' ? '/' : operator;
           let result = eval(firstValue + formateOperator + secondValue);
           setresult(result);
-          setHistory({exp: displayValue, res: result});
           setfirstValue('');
           setsecondValue('');
           setnextValue(false);
           setoperator(null);
-        } else return;
+        } 
+        // else display toast to clear calculations
+        else toastRef.current.handleToastButtonPress()
         break;
       //
       case 'C':
@@ -101,7 +105,14 @@ const Home = ({navigation, setHistory}) => {
           let deletedString = displayValue.substr(0, string.length - 1);
           let length = string.length;
           setdisplayValue(length === 1 ? '0' : deletedString);
-        } else setdisplayValue(displayValue);
+        } else
+        setdisplayValue('0');
+        setoperator(null);
+        setfirstValue('');
+        setsecondValue('');
+        setresult(null);
+        setnextValue(false); 
+        // setdisplayValue(displayValue);
         break;
       case 'H':
         navigation.navigate('History');
@@ -125,16 +136,17 @@ const Home = ({navigation, setHistory}) => {
     //   setoperator(props.val);
     // }
   };
-  console.log('next value===@home122==>>', nextValue);
+  // console.log('next value===@home122==>>', nextValue);
   return (
     <>
+    <ToastMsg ref={toastRef} msg='First Clear Calculation' />
       {/* <StatusBar backgroundColor="#202020" barStyle="light-content" /> */}
       <View style={[styles.appContainer, styles.flex_1]}>
         {/* section 1 where results will display */}
         <View style={styles.section1}>
           {/* section 1 row 1 */}
           <View style={[styles.s1r1, styles.s1r, styles.flex_1]}>
-            <Button onPress={()=>initialHistoryHandler()} title='get data' /> 
+            {/* <Button onPress={()=>initialHistoryHandler()} title='get data' />  */}
             <Text style={[styles.textColor]}>{displayValue}</Text>
           </View>
           {/* section 1 row 2 */}
@@ -142,6 +154,7 @@ const Home = ({navigation, setHistory}) => {
             <Text style={[styles.textColor]}>
               {result === null ? null : `${result} =`}
             </Text>
+            {/* <Button title='check' onPress={() => toastRef.current.handleToastButtonPress()} /> */}
           </View>
         </View>
         {/* section 2 contain key pad */}
@@ -152,14 +165,15 @@ const Home = ({navigation, setHistory}) => {
     </>
   );
 };
-const mapStateToProps = (state) => ({
-  // user1: state.r1.name,
-  // user2: state.r2.user,
-});
-const mapDispatchToProps = (dispatch) => ({
-  setHistory: (data) => dispatch(setHistory(data)),
-});
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+// const mapStateToProps = (state) => ({
+//   // user1: state.r1.name,
+//   // user2: state.r2.user,
+// });
+// const mapDispatchToProps = (dispatch) => ({
+//   setHistory: (data) => dispatch(setHistory(data)),
+// });
+// export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;
 
 // STYLES
 const styles = StyleSheet.create({
@@ -172,24 +186,28 @@ const styles = StyleSheet.create({
   },
   section1: {
     flex: 2,
+
     // backgroundColor: 'aqua',
   },
   section2: {
     flex: 4,
-    // alignSelf: 'flex-end',
+    paddingHorizontal: 5,
+    // justifyContent: 'center',
+    // alignItems: 'center',
     // backgroundColor: 'aqua',
+    // alignSelf: 'flex-end',
     // alignItems: 'baseline',
   },
   textColor: {
     color: '#fff',
-    fontSize: 45,
+    fontSize: 55,
   },
   s1r: {
     // marginTop: 5,
     // backgroundColor: 'brown',
-    alignItems: 'flex-end',
     justifyContent: 'flex-end',
-    paddingHorizontal: 20,
-    paddingVertical: 5,
+    alignItems: 'flex-end',
+    paddingHorizontal: 25,
+    // paddingVertical: 5,
   },
 });

@@ -9,16 +9,19 @@ import {
   StatusBar,
 } from 'react-native';
 // import AppDrawer from './src/Navigation/Drawer'\
-import Navigations from './src/Navigation/Navigations';
+// import Navigations from './src/Navigation/Navigations';
+import Home from './src/screens/Home'
 import {Provider} from 'react-redux';
-import store from './src/redux/store';
+// import store from './src/redux/store';
 
 const App = () => {
   return (
-    <Provider store={store}>
+    <>
+     {/* <Provider store={store}> */}
       <StatusBar backgroundColor='#202020' barStyle="light-content" />
-      <Navigations />
-    </Provider>
+      <Home />
+     {/* </Provider> */}
+    </>
   );
 };
 
