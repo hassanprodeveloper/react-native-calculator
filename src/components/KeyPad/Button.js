@@ -1,10 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text, Pressable} from 'react-native';
 
-const Button = ({obj, index,pressHandler}) => {
-  //
-  // console.log('button obj ===>>>', obj.size);
-  //
+const Button = ({obj, index, pressHandler}) => {
   const blackTheme = {notPress: '#333333', press: '#3f3f3f'};
   const grayTheme = {notPress: '#a6a6a6', press: '#bababa'};
   const orangeTheme = {notPress: '#f09a25', press: '#ffa228'};
@@ -27,7 +24,7 @@ const Button = ({obj, index,pressHandler}) => {
   return (
     <>
       <Pressable
-        key={'btn-'+index}
+        key={'btn-' + index}
         onPress={() => pressHandler(obj.input)}
         style={({pressed}) => [
           {
@@ -47,9 +44,6 @@ export default Button;
 // Styles are down here
 const styles = StyleSheet.create({
   Button_pressable: {
-    // backgroundColor: '#333333',
-    // backgroundColor: '#a6a6a6',
-
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
@@ -58,6 +52,5 @@ const styles = StyleSheet.create({
   Button_text: {
     color: '#fff',
     fontSize: 40,
-    // backgroundColor: 'aqua',
   },
 });

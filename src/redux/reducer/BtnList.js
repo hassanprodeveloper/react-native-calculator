@@ -1,7 +1,7 @@
 export const btnList = [
   // row 1
   [
-    {input: 'C', val: 'clear',size: 'double' , theme: 'gray', type: 'fun'},
+    {input: 'C', val: 'clear', size: 'double', theme: 'gray', type: 'fun'},
     {input: 'del', val: 'del', theme: 'gray', type: 'fun'},
     {input: '÷', val: '/', theme: 'orange', type: 'operator'},
   ],
@@ -27,8 +27,8 @@ export const btnList = [
   ],
   // row 4
   [
-    {input: '0', val: '0', theme: 'black',  type: 'num'},
+    {input: '0', val: '0', theme: 'black', type: 'num'},
     {input: '.', val: '.', theme: 'black', type: 'num'},
-    {input: '=', val: '=', theme: 'orange',size: 'double', type: 'operator'},
+    {input: '=', val: '=', theme: 'orange', size: 'double', type: 'operator'},
   ],
 ];

@@ -5,7 +5,7 @@ import {btnList} from '../../redux/reducer/BtnList';
 
 const KeyPad = ({pressHandler}) => {
   const buttons = btnList;
-  // 
+  //
   const keyPadHandler = () => {
     let layout = buttons.map((buttonsRow, rowIndex) => {
       let rowLayout = buttonsRow.map((buttonsItem, buttonIndex) => {
@@ -25,7 +25,7 @@ const KeyPad = ({pressHandler}) => {
     });
     return layout;
   };
-  // 
+  //
   return <View style={styles.KeyPad_container}>{keyPadHandler()}</View>;
 };
 
@@ -38,9 +38,6 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   Button_pressable: {
-    // backgroundColor: '#333333',
-    // backgroundColor: '#a6a6a6',
-
     borderRadius: 50,
     width: 70,
     justifyContent: 'center',
@@ -50,7 +47,6 @@ const styles = StyleSheet.create({
   Button_text: {
     color: '#fff',
     fontSize: 40,
-    // backgroundColor: 'aqua',
   },
   row: {
     flexDirection: 'row',
